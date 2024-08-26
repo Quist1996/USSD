@@ -1,0 +1,123 @@
+import requests
+
+
+def fetch_student_data(student_id):
+    try:
+        response = requests.get(f"http://146.190.72.22/verifyStudent/{student_id}")
+        response.raise_for_status()  # Check if the request was successful
+        return response.json()  # Return the parsed JSON response
+    except requests.exceptions.RequestException as e:
+        print(f"Error retrieving student data: {e}")
+        return None
+
+def handle_payment():
+    print("1. Pay tuition")
+    print("2. Others")
+    choice2 = input("Enter 1 or 2:" )
+    # Add payment logic here
+
+    if choice2 == "1":
+        print(input("Enter amount: "))
+        #print("Payment completed.")
+    elif choice2 == "2":
+        print("1.school cloth")
+        print("2.Stationery")
+    else:
+        print("Invalid")
+
+
+
+def handle_ecards():
+    print("1.Load e-card wallet")
+    print("2. Check balance")
+    print("3. Set Limit")
+    choice3 = input("Enter 1,2 or 3: ")
+    # Add payment logic here
+
+    if choice3 == "1":
+        print(input("Enter amount: "))
+        # print("Payment completed.")
+    if choice3 == "2":
+        print(input("Pin: "))
+
+    if choice3 == "3":
+        print(input("null"))
+
+    else:
+        print("Invalid")
+    # Add E-cards logic here
+    print("success")
+
+def handle_student_reports():
+    print("1.Check terminal reports")
+    # Add student report logic here
+    print("Student reports accessed.")
+
+def handle_arrears():
+    print("1.Arrears")
+    # Add arrears checking logic here
+    print("Arrears checked.")
+
+def get_student_id():
+    ussd = input("Enter USSD code: ")
+
+
+def get_student_id():
+    ussd = input("Enter USSD code: ")
+
+    if ussd == "*124#":
+        school = 'Good Shepherd Academy'
+
+        while True:
+            student_id = input(f"Welcome to {school}\nPlease enter student ID: ")
+            student_data = fetch_student_data(student_id)
+
+            if student_data and student_data.get('Available') == "Yes":
+                # Display the retrieved data
+                print("Confirm\n"
+                      f"Student Name: {student_data['Name']}")
+                print(f"Student Class: {student_data['class']}")
+
+                # Ask for user confirmation (Yes or No)
+                choice = input("1. Yes\n2. No\nPlease enter 1 or 2: ")
+
+                if choice == "1":
+                    print("1.Pay Fees")
+                    print("2.E- cards")
+                    print("3.Check Student reports")
+                    print("4.Check Arrears")
+                    next_step = input("Please enter: ")
+                    if next_step == "1":
+                        handle_payment()
+                    elif next_step == "2":
+                        handle_ecards()
+                    elif next_step == "3":
+                        handle_student_reports()
+                    elif next_step == "4":
+                        handle_arrears()
+                    else:
+                        print("Invalid choice. Please try again.")
+
+
+                    # Further processing can be done here if needed
+                    break  # Exit the loop since the process is complete
+                elif choice == "2":
+                    #print("Please re-enter the student ID.")
+                    continue  # Loop back to re-enter the student ID
+                else:
+                    print("Invalid choice. Please enter 1 for Yes or 2 for No.")
+            else:
+                print("Invalid \n"
+                      "Please choose either 1 or 2 ")
+                #retry_choice = input("Would you like to try again? (Y/N): ")
+                #if retry_choice.lower() == 'n':
+                   # print("Exiting. Goodbye!")
+                    #break  # Exit the loop if the user chooses not to retry
+
+    else:
+        print("Invalid USSD code.")
+
+
+
+get_student_id()
+
